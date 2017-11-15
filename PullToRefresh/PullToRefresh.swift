@@ -22,6 +22,8 @@ open class PullToRefresh: NSObject {
     open var springDamping: CGFloat = 0.4
     open var initialSpringVelocity: CGFloat = 0.8
     open var animationOptions: UIViewAnimationOptions = [.curveLinear]
+    open let statusBarHeight = UIApplication.shared.statusBarFrame.height
+    open let navigationBarHeight: CGFloat = 44
 
     let refreshView: UIView
     var action: (() -> ())?
@@ -246,7 +248,7 @@ private extension PullToRefresh {
             animations: {
                 self.scrollView?.contentInset = self.scrollViewDefaultInsets
                 if case .top = self.position {
-                    self.scrollView?.contentOffset.y = -self.scrollViewDefaultInsets.top
+                    self.scrollView?.contentOffset.y = -self.scrollViewDefaultInsets.top - (self.statusBarHeight + self.navigationBarHeight)
                 }
             },
             completion: { _ in
